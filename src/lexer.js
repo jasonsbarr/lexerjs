@@ -21,7 +21,7 @@ class Token {
   }
 }
 
-const token = (type, val, line, col, pos) =>
+export const token = (type, val, line, col, pos) =>
   new Token(type, val, line, col, pos);
 
 /**

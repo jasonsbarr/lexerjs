@@ -103,7 +103,7 @@ export class Lexer {
       this.groups[groupName] = name;
     }
 
-    this.regex = new RegExp(reFrags.join("|"), "g");
+    this.regex = new RegExp(reFrags.join("|"), "ug");
 
     return this;
   }

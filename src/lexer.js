@@ -8,8 +8,9 @@ class LexerError extends Error {
  * A Token represents a single lexeme
  */
 class Token {
-  constructor(type, val, line, col, pos) {
+  constructor(type, name, val, line, col, pos) {
     this.type = type;
+    this.name = name;
     this.val = val;
     this.line = line;
     this.col = col;
@@ -21,24 +22,25 @@ class Token {
   }
 }
 
-export const token = (type, val, line, col, pos) =>
-  new Token(type, val, line, col, pos);
+export const token = (type, name, val, line, col, pos) =>
+  new Token(type, name, val, line, col, pos);
 
 /**
  * A rule that defines a token type
  */
 class Rule {
-  constructor(name, regex) {
+  constructor(type, name, regex) {
+    this.type = type;
     this.name = name;
     this.regex = regex;
   }
 
   toString() {
-    return `Rule(name=${this.name}, regex=${this.regex})`;
+    return `Rule(type=${this.type}, name=${this.name}, regex=${this.regex})`;
   }
 }
 
-export const rule = (name, regex) => new Rule(name, regex);
+export const rule = (type, name, regex) => new Rule(type, name, regex);
 
 /**
  * Manages the state of the input stream as the lexer processes it
@@ -92,10 +94,10 @@ export class Lexer {
     let reFrags = [];
     let i = 1;
 
-    for (let { name, regex } in this.rules) {
+    for (let { type, name, regex } in this.rules) {
       let groupName = `${name}${i++}`;
       reFrags.push(`(?<${groupName}>${regex})`);
-      this.groups[groupName] = name;
+      this.groups[groupName] = { type, name };
     }
 
     this.regex = new RegExp(reFrags.join("|"), "ug");
@@ -149,9 +151,9 @@ export class Lexer {
 
     if (m) {
       let groupName = Object.keys(m.groups)[0];
-      let tokType = this.groups[groupName];
+      let { type, name } = this.groups[groupName];
       let value = m[0];
-      let tok = token(tokType, value, line, col, pos);
+      let tok = token(type, name, value, line, col, pos);
 
       this.inputStr.advance(pos + value.length);
 

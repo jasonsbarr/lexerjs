@@ -154,6 +154,7 @@ export class Lexer {
       for (let [k, v] of Object.entries(m.groups)) {
         if (v !== undefined) {
           groupName = k;
+          break;
         }
       }
 

@@ -24,4 +24,15 @@ class Token {
 const token = (type, val, line, col, pos) =>
   new Token(type, val, line, col, pos);
 
-const rule = (name, regex) => ({ name, regex });
+class Rule {
+  constructor(name, regex) {
+    this.name = name;
+    this.regex = regex;
+  }
+
+  toString() {
+    return `Rule(name=${this.name}, regex=${this.regex})`;
+  }
+}
+
+const rule = (name, regex) => new Rule(name, regex);

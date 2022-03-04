@@ -179,3 +179,5 @@ export class Lexer {
     }
   }
 }
+
+export const lexer = (rules) => new Lexer(rules);

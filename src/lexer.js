@@ -20,3 +20,8 @@ class Token {
     return `Token(type=${this.type}, val=${this.val})`;
   }
 }
+
+const token = (type, val, line, col, pos) =>
+  new Token(type, val, line, col, pos);
+
+const rule = (name, regex) => ({ name, regex });

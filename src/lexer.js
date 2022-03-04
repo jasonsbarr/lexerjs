@@ -1,5 +1,5 @@
 class LexerError extends Error {
-  constructor(msg) {
-    super(msg);
+  constructor(char, line, col) {
+    super(`Invalid token ${char} at (${line}:${col})`);
   }
 }

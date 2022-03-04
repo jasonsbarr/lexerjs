@@ -134,6 +134,10 @@ export class Lexer {
     return this;
   }
 
+  /**
+   * Matches a rule with the current position of the input stream and creates a Token
+   * @returns {Token}
+   */
   token() {
     let { buffer, pos, line, col } = this.inputStr;
 
@@ -156,5 +160,22 @@ export class Lexer {
 
     // if it gets here, nothing matched
     throw new LexerError(buffer[pos], line, col);
+  }
+
+  /**
+   * Returns a generator of the tokens found in the input buffer
+   */
+  *tokenize() {
+    while (!this.inputStr.eof()) {
+      let tok = this.token();
+
+      if (tok !== null) {
+        yield tok;
+      }
+
+      let { line, col, pos } = this.inputStr;
+
+      yield token("ENDOFINPUT", "EndOfInput", line, col, pos);
+    }
   }
 }

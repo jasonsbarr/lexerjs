@@ -80,14 +80,9 @@ class InputStream {
  * Extensible lexer with a fluent interface
  */
 export class Lexer {
-  constructor(rules, skipWs = false) {
+  constructor(rules) {
     this.rules = rules;
-    this.skipWs = skipWs;
     this.groups = {};
-
-    if (skipWs) {
-      this.skipWsRe = /\S/;
-    }
   }
 
   /**
@@ -139,5 +134,27 @@ export class Lexer {
     return this;
   }
 
-  token() {}
+  token() {
+    let { buffer, pos, line, col } = this.inputStr;
+
+    if (this.inputStr.eof()) {
+      return null;
+    }
+
+    let m = this.regex.exec(buffer.slice(pos));
+
+    if (m) {
+      let groupName = Object.keys(m.groups)[0];
+      let tokType = this.groups[groupName];
+      let value = m[0];
+      let tok = token(tokType, value, line, col, pos);
+
+      this.inputStr.advance(pos + value.length);
+
+      return tok;
+    }
+
+    // if it gets here, nothing matched
+    throw new LexerError(buffer[pos], line, col);
+  }
 }

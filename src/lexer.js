@@ -60,10 +60,6 @@ class InputStream {
   advance(pos) {
     this.pos = pos;
 
-    if (pos >= this.length) {
-      return;
-    }
-
     if (/\r?\n/g.exec(this.buffer[pos])) {
       this.line += 1;
       this.col = 0;
@@ -98,7 +94,6 @@ export class Lexer {
     let i = 1;
 
     for (let { type, name, regex } of this.rules) {
-      console.log(type, name, regex);
       let groupName = `${name}${i++}`;
       reFrags.push(`(?<${groupName}>` + regex + `)`);
       this.groups[groupName] = { type, name };
@@ -178,11 +173,11 @@ export class Lexer {
       if (tok !== null) {
         yield tok;
       }
-
-      let { line, col, pos } = this.inputStr;
-
-      yield token("ENDOFINPUT", "EndOfInput", line, col, pos);
     }
+
+    let { line, col, pos } = this.inputStr;
+
+    yield token("EndOfInput", "ENDOFINPUT", "EndOfInput", line, col, pos);
   }
 }
 

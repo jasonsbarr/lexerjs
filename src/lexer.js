@@ -58,7 +58,7 @@ class InputStream {
   }
 
   advance(pos) {
-    self.pos = pos;
+    this.pos = pos;
 
     if (pos >= this.length) {
       return;
@@ -97,9 +97,10 @@ export class Lexer {
     let reFrags = [];
     let i = 1;
 
-    for (let { type, name, regex } in this.rules) {
+    for (let { type, name, regex } of this.rules) {
+      console.log(type, name, regex);
       let groupName = `${name}${i++}`;
-      reFrags.push(`(?<${groupName}>${regex})`);
+      reFrags.push(`(?<${groupName}>` + regex + `)`);
       this.groups[groupName] = { type, name };
     }
 

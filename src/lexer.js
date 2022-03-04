@@ -40,6 +40,9 @@ class Rule {
   }
 }
 
+/**
+ * E.g. rule("Keyword", "IF", String.raw`if`)
+ */
 export const rule = (type, name, regex) => new Rule(type, name, regex);
 
 /**

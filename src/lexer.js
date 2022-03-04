@@ -67,6 +67,10 @@ class InputStream {
     }
   }
 
+  eof() {
+    return this.pos >= this.length;
+  }
+
   toString() {
     return `[object InputStream length=${this.length}]`;
   }

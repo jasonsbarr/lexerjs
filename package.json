@@ -1,0 +1,27 @@
+{
+  "name": "@jasonsbarr/lexer",
+  "version": "1.0.0",
+  "description": "A simple regex-based lexer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonsbarr/lexerjs.git"
+  },
+  "keywords": [
+    "lexer",
+    "lexical-analysis",
+    "languages"
+  ],
+  "author": "Jason Barr <jason@jasonsbarr.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jasonsbarr/lexerjs/issues"
+  },
+  "homepage": "https://github.com/jasonsbarr/lexerjs#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}

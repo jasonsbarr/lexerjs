@@ -99,7 +99,7 @@ export class Lexer {
       this.groups[groupName] = { type, name };
     }
 
-    this.regex = new RegExp(reFrags.join("|"), "ug");
+    this.regex = new RegExp(reFrags.join("|"), "u");
 
     return this;
   }
@@ -149,7 +149,14 @@ export class Lexer {
     let m = this.regex.exec(buffer.slice(pos));
 
     if (m) {
-      let groupName = Object.keys(m.groups)[0];
+      let groupName;
+
+      for (let [k, v] of Object.entries(m.groups)) {
+        if (v !== undefined) {
+          groupName = k;
+        }
+      }
+
       let { type, name } = this.groups[groupName];
       let value = m[0];
       let tok = token(type, name, value, line, col, pos);

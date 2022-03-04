@@ -38,7 +38,7 @@ class Rule {
   }
 }
 
-const rule = (name, regex) => new Rule(name, regex);
+export const rule = (name, regex) => new Rule(name, regex);
 
 /**
  * Manages the state of the input stream as the lexer processes it

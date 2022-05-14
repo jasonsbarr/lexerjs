@@ -8,9 +8,8 @@ class LexerError extends Error {
  * A Token represents a single lexeme
  */
 class Token {
-  constructor(type, name, val, line, col, pos) {
+  constructor(type, val, line, col, pos) {
     this.type = type;
-    this.name = name;
     this.val = val;
     this.line = line;
     this.col = col;
@@ -22,16 +21,15 @@ class Token {
   }
 }
 
-export const token = (type, name, val, line, col, pos) =>
-  new Token(type, name, val, line, col, pos);
+export const token = (type, val, line, col, pos) =>
+  new Token(type, val, line, col, pos);
 
 /**
  * A rule that defines a token type
  */
 class Rule {
-  constructor(type, name, regex) {
+  constructor(type, regex) {
     this.type = type;
-    this.name = name;
     this.regex = regex;
   }
 
@@ -95,7 +93,7 @@ export class Lexer {
 
     for (let { type, name, regex } of this.rules) {
       let groupName = `${name}${i++}`;
-      reFrags.push(`(?<${groupName}>` + regex + `)`);
+      reFrags.push(`^(?<${groupName}>` + regex + `)`);
       this.groups[groupName] = { type, name };
     }
 
@@ -172,20 +170,20 @@ export class Lexer {
   }
 
   /**
-   * Returns a generator of the tokens found in the input buffer
+   * Returns an array of the tokens found in the input buffer
    */
-  *tokenize() {
+  tokenize() {
+    let tokens = [];
+
     while (!this.inputStr.eof()) {
       let tok = this.token();
 
       if (tok !== null) {
-        yield tok;
+        tokens.push(tok);
       }
     }
 
-    let { line, col, pos } = this.inputStr;
-
-    yield token("EndOfInput", "ENDOFINPUT", "EndOfInput", line, col, pos);
+    return tokens;
   }
 }
 

@@ -91,10 +91,10 @@ export class Lexer {
     let reFrags = [];
     let i = 1;
 
-    for (let { type, name, regex } of this.rules) {
-      let groupName = `${name}${i++}`;
+    for (let { type, regex } of this.rules) {
+      let groupName = `${type}${i++}`;
       reFrags.push(`^(?<${groupName}>` + regex + `)`);
-      this.groups[groupName] = { type, name };
+      this.groups[groupName] = type;
     }
 
     this.regex = new RegExp(reFrags.join("|"), "u");

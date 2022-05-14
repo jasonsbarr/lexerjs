@@ -156,9 +156,9 @@ export class Lexer {
         }
       }
 
-      let { type, name } = this.groups[groupName];
+      let type = this.groups[groupName];
       let value = m[0];
-      let tok = token(type, name, value, line, col, pos);
+      let tok = token(type, value, line, col, pos);
 
       this.inputStr.advance(pos + value.length);
 
